@@ -1,0 +1,49 @@
+
+.title{
+    background-image: linear-gradient(to left, violet, indigo,blue,green, yellow, orange, red);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+.score-div{
+    display: flex;
+    width: 90%;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.score-text{
+    font-size: xx-large;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.button-container{
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    flex-flow: row;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.game-button{
+    margin: 30px;
+    padding: 20px;
+    width: 200px;
+    height: 200px;
+    font-size: large;
+}
+
+.result-text{
+    font-size: xx-large;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+.hidden{
+    display: none;
+}
