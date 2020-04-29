@@ -8,78 +8,97 @@
 
     humanScore = aiScore = 0;
     
+    //General
+
     updateScore();
     resultText.classList.add('hidden');
 
-    function updateScore(){
+    function updateScore()
+    {
         scoreText.textContent = `Human: ${humanScore} - AI: ${aiScore}`;
     }
 
-    function getRandomInt(max){
+    function checkGame()
+    {
+        if(humanScore == 5 && aiScore <= 4)
+        {
+            resultText.classList.remove('hidden');
+            resultText.textContent = "YOU WIN, REFRESH THE PAGE TO PLAY AGAIN!";
+            disableButtons();
+        }
+        if(aiScore == 5 && humanScore <= 4)
+        {
+            resultText.classList.remove('hidden');
+            resultText.textContent = "I WIN, REFRESH THE PAGE TO PLAY AGAIN!";
+            disableButtons();
+        }
+    }
+
+    function disableButtons()
+    {
+        selection.forEach(selection => selection.disabled = true);
+    }
+
+
+    function round(player,ai)
+    {
+        
+        //Player win
+        if(player == 'rock' && ai == 'scissors' || player == 'paper' && ai == 'rock' || player == 'scissors' && ai == 'paper')
+        {
+            humanScore = humanScore += 1;
+            resultText.classList.remove('hidden');
+            resultText.textContent = "YOU WIN THIS TIME!!";
+        }
+
+        //AI win
+        if(player == 'scissors' && ai == 'rock' || player == 'rock' && ai == 'paper' || player == 'paper' && ai == 'scissors')
+        {
+            aiScore = aiScore += 1;
+            resultText.classList.remove('hidden');
+            resultText.textContent = "I WIN THIS TIME!!";
+        }
+
+        //Draw
+        if(player == ai)
+        {
+            resultText.classList.remove('hidden');
+            resultText.textContent = "NO ONE WIN'S THIS TIME";
+        }
+        updateScore();
+        checkGame();
+    }
+
+    //Player
+
+    function playGame()
+    {
+        let playerSelection = this.dataset.selection;
+        let computerSelection = computerPlay();
+        round(playerSelection,computerSelection);
+    }
+
+    //AI
+
+    function getRandomInt(max)
+    {
         return Math.floor(Math.random() * Math.floor(max));
     }
 
-    function computerPlay(){
+    function computerPlay()
+    {
         let number = getRandomInt(3);
-        switch(number){
+        switch(number)
+        {
             case 0: return 'rock';
             case 1: return 'paper';
             case 2: return 'scissors';
         }
     }
 
-    function playRound(playerSelection,computerSelection){
 
-        let fixedPlayerSelection = playerSelection.toLowerCase();
+    //OTHERS
 
-        if(fixedPlayerSelection == 'rock' && computerSelection == 'scissors' || 
-        fixedPlayerSelection == 'paper' && computerSelection == 'rock' || 
-        fixedPlayerSelection == 'scissors' && computerSelection == 'paper'){
-            return `1.- you win, ${fixedPlayerSelection} wins to ${computerSelection}`;
-        }
+    const selection = document.querySelectorAll('.game-button');
 
-        if(fixedPlayerSelection == 'scissors' && computerSelection == 'rock' || 
-        fixedPlayerSelection == 'rock' && computerSelection == 'paper' || 
-        fixedPlayerSelection == 'paper' && computerSelection == 'scissors'){
-            return `2.- I win, ${computerSelection} wins to ${fixedPlayerSelection}`;
-        }
-
-        if(fixedPlayerSelection == computerSelection){
-            return "3.- it's a draw";
-        }
-    }
-
-    function game()
-    {
-        let playerScore = 0;
-        let machineScore = 0;
-
-        for(let i = 0; i < 5; i++)
-        {
-        let playerSelection = prompt('enter your selection');
-        let computerSelection = computerPlay();
-        let result = playRound(playerSelection,computerSelection);
-        console.log(result)
-        
-        let number = parseInt(result.charAt(0),10);
-        
-        switch(number)
-        {
-            case 1: playerScore += 1; break;
-            case 2: machineScore +=1; break;
-        }
-        console.log(`score: player - ${playerScore}, machine - ${machineScore}`);
-        }
-
-        if(playerScore > machineScore){
-            console.log("human wins!!!")
-        }
-        if(machineScore > playerScore){
-            console.log("Rise of the machines!!!");
-        }
-        if(machineScore == playerScore){
-            console.log("it's a draw GG");
-        }
-    }
-
-    //game();
+    selection.forEach(selection => selection.onclick = playGame);
